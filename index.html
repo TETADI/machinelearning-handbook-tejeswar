@@ -1,0 +1,1910 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Machine Learning Mastery — A Master Curriculum by Tejeswar Reddy Tadi</title>
+<meta name="description" content="A complete, beginner-to-expert Machine Learning curriculum — explained in simple English with visuals, formulas, worked examples, and modern LLM connections. By Tejeswar Reddy Tadi, AI Engineer at Accenture." />
+<meta name="author" content="Tejeswar Reddy Tadi" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400;1,6..72,500;1,6..72,600&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+/* ─────────────────────────────────────────────────────────────
+   FOUNDATIONS — Friendly notebook palette
+─────────────────────────────────────────────────────────────── */
+:root{
+  --paper:        #fdfcf8;
+  --paper-warm:   #f8f5ec;
+  --paper-deep:   #f1ecdf;
+
+  --ink:          #0c111a;
+  --ink-soft:     #2d3548;
+  --ink-mute:     #6b7280;
+  --ink-faint:    #9ca3af;
+
+  --rule:         #e5e0d2;
+  --rule-soft:    #efe9d9;
+  --grid:         rgba(37,99,235,.04);   /* very faint blue graph-paper */
+
+  --blue:         #2563eb;       /* electric ink blue — primary */
+  --blue-d:       #1e40af;
+  --blue-soft:    #dbeafe;
+  --blue-glow:    rgba(37,99,235,.08);
+
+  --coral:        #f97066;       /* coral red — secondary accent */
+  --coral-d:      #dc2626;
+  --coral-soft:   #fee2e2;
+
+  --gold:         #eab308;       /* gold "highlighter" */
+  --gold-soft:    #fef3c7;
+
+  --mint:         #10b981;       /* leaf green for "tools" */
+  --mint-soft:    #d1fae5;
+
+  --plum:         #7c3aed;       /* plum for "math" */
+  --plum-soft:    #ede9fe;
+
+  --serif: "Newsreader", ui-serif, Georgia, serif;
+  --sans:  "Inter", ui-sans-serif, -apple-system, system-ui, sans-serif;
+  --mono:  "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
+}
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
+body{
+  font-family:var(--sans);
+  background:var(--paper);
+  color:var(--ink);
+  font-size:16px;
+  line-height:1.65;
+  font-weight:400;
+  overflow-x:hidden;
+  position:relative;
+}
+
+/* GRAPH-PAPER GRID BACKGROUND */
+body::before{
+  content:"";
+  position:fixed;inset:0;
+  pointer-events:none;
+  z-index:0;
+  background-image:
+    linear-gradient(var(--grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+  background-size:32px 32px;
+  mask-image:radial-gradient(ellipse 80% 100% at 50% 30%, #000 30%, transparent 90%);
+  -webkit-mask-image:radial-gradient(ellipse 80% 100% at 50% 30%, #000 30%, transparent 90%);
+}
+
+::selection{background:var(--gold-soft);color:var(--ink)}
+a{color:inherit;text-decoration:none}
+
+/* ─────────────────────────────────────────────────────────────
+   NAVIGATION
+─────────────────────────────────────────────────────────────── */
+.topbar{
+  position:fixed;top:0;left:0;right:0;
+  z-index:100;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:18px 36px;
+  background:rgba(253,252,248,.85);
+  backdrop-filter:blur(16px) saturate(140%);
+  -webkit-backdrop-filter:blur(16px) saturate(140%);
+  border-bottom:1px solid var(--rule);
+}
+.brand{
+  display:flex;align-items:center;gap:12px;
+  font-family:var(--serif);font-size:20px;
+  font-weight:600;letter-spacing:-.015em;
+}
+.brand .mark{
+  width:30px;height:30px;
+  border:2px solid var(--ink);border-radius:7px;
+  background:var(--paper);
+  position:relative;
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--serif);font-style:italic;
+  font-size:16px;color:var(--blue);
+  font-weight:700;
+}
+.brand .mark::after{
+  content:"";position:absolute;
+  right:-3px;bottom:-3px;
+  width:14px;height:14px;
+  border-radius:50%;background:var(--coral);
+  border:2px solid var(--paper);
+}
+.brand i{font-style:italic;font-weight:400;color:var(--ink-mute);font-size:16px}
+.nav-links{
+  display:flex;gap:30px;
+  font-size:14px;font-weight:500;color:var(--ink-soft);
+}
+.nav-links a{transition:color .2s;position:relative}
+.nav-links a:hover{color:var(--blue)}
+.nav-cta{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:9px 20px;
+  background:var(--ink);color:var(--paper);
+  font-size:13px;font-weight:600;
+  letter-spacing:-.01em;
+  border-radius:8px;
+  transition:all .2s;
+}
+.nav-cta:hover{background:var(--blue);transform:translateY(-1px)}
+@media (max-width:880px){
+  .topbar{padding:14px 20px}
+  .nav-links{display:none}
+}
+
+/* ─────────────────────────────────────────────────────────────
+   LAYOUT
+─────────────────────────────────────────────────────────────── */
+.shell{max-width:1240px;margin:0 auto;padding:0 36px;position:relative;z-index:2}
+@media (max-width:780px){.shell{padding:0 20px}}
+section{position:relative;z-index:2}
+section[id]{scroll-margin-top:90px}
+
+/* ─────────────────────────────────────────────────────────────
+   HERO — notebook-style intro
+─────────────────────────────────────────────────────────────── */
+.hero{
+  padding:150px 0 100px;
+  position:relative;
+  overflow:hidden;
+}
+
+/* hand-drawn-feel underline accent on hero */
+.hero::before{
+  content:"";
+  position:absolute;
+  bottom:60px;right:8%;
+  width:380px;height:380px;
+  background:radial-gradient(circle,var(--blue-glow) 0%,transparent 70%);
+  pointer-events:none;
+}
+
+/* AUTHOR BYLINE — index-card style */
+.byline{
+  display:inline-flex;align-items:center;gap:18px;
+  padding:14px 22px 14px 14px;
+  background:var(--paper);
+  border:1px solid var(--rule);
+  border-radius:14px;
+  margin-bottom:48px;
+  box-shadow:0 4px 12px rgba(12,17,26,.04), 0 1px 2px rgba(12,17,26,.04);
+  position:relative;
+}
+.byline::before{
+  content:"";
+  position:absolute;
+  top:-6px;left:24px;
+  width:50px;height:14px;
+  background:var(--gold-soft);
+  border:1px solid var(--gold);
+  border-radius:2px;
+  transform:rotate(-3deg);
+  opacity:.6;
+}
+.byline-photo{
+  width:54px;height:54px;border-radius:50%;
+  overflow:hidden;
+  background:linear-gradient(135deg,var(--blue),var(--plum));
+  position:relative;
+  flex-shrink:0;
+  box-shadow:0 4px 14px rgba(37,99,235,.2);
+}
+.byline-photo img{
+  position:absolute;inset:0;
+  width:100%;height:100%;
+  object-fit:cover;border-radius:50%;
+  z-index:2;
+}
+.byline-photo .ini{
+  position:absolute;inset:0;z-index:1;
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--serif);font-style:italic;
+  font-size:24px;color:white;font-weight:600;
+}
+.byline-info{display:flex;flex-direction:column;gap:3px}
+.byline-name{
+  font-family:var(--serif);
+  font-size:18px;font-weight:600;letter-spacing:-.015em;
+  color:var(--ink);
+}
+.byline-role{
+  font-size:12.5px;color:var(--ink-mute);
+  display:flex;align-items:center;gap:8px;flex-wrap:wrap;
+}
+.byline-role .pip{
+  width:5px;height:5px;border-radius:50%;
+  background:var(--coral);
+  display:inline-block;
+}
+.byline-role .sep{color:var(--rule)}
+.byline-role .badge{
+  padding:2px 9px;background:var(--blue-soft);
+  color:var(--blue-d);border-radius:99px;
+  font-size:11px;font-weight:500;
+  font-family:var(--mono);
+}
+
+.eyebrow{
+  display:inline-flex;align-items:center;gap:12px;
+  font-family:var(--mono);font-size:12px;
+  letter-spacing:.18em;text-transform:uppercase;
+  color:var(--blue);font-weight:500;
+  margin-bottom:28px;
+}
+.eyebrow::before{
+  content:"";width:36px;height:2px;background:var(--blue);
+}
+
+h1.title{
+  font-family:var(--serif);
+  font-size:clamp(54px,8.5vw,124px);
+  line-height:.96;
+  font-weight:500;
+  letter-spacing:-.022em;
+  margin-bottom:34px;
+  color:var(--ink);
+}
+h1.title em{
+  font-style:italic;
+  font-weight:400;
+  color:var(--blue);
+  position:relative;
+}
+/* hand-underline under italic word */
+h1.title em::after{
+  content:"";
+  position:absolute;
+  bottom:.05em;left:-2%;right:-3%;
+  height:.4em;
+  background:var(--gold-soft);
+  z-index:-1;
+  border-radius:4px;
+  transform:rotate(-.6deg);
+}
+h1.title .pt{
+  display:block;
+  font-family:var(--mono);
+  font-size:.15em;
+  font-style:normal;
+  font-weight:500;
+  letter-spacing:.06em;
+  color:var(--ink-mute);
+  margin-top:20px;
+}
+h1.title .pt::before{content:"▸ ";color:var(--coral)}
+
+.hero-grid{
+  display:grid;grid-template-columns:1.4fr 1fr;
+  gap:60px;align-items:end;margin-top:30px;
+}
+.hero-grid p.lead{
+  font-size:21px;line-height:1.55;
+  color:var(--ink-soft);max-width:46ch;
+}
+.hero-grid p.lead strong{
+  color:var(--ink);font-weight:600;
+  position:relative;
+  background:linear-gradient(transparent 60%, var(--gold-soft) 60%);
+}
+.hero-grid .secondary p{
+  font-size:15.5px;line-height:1.7;
+  color:var(--ink-mute);
+}
+@media (max-width:880px){.hero-grid{grid-template-columns:1fr;gap:30px}}
+
+/* HERO STATS */
+.hero-stats{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:1px;
+  background:var(--rule);
+  border:1px solid var(--rule);
+  border-radius:14px;overflow:hidden;
+  margin-top:80px;
+}
+.hero-stat{
+  background:var(--paper);
+  padding:24px 22px;
+  text-align:left;
+}
+.hero-stat .num{
+  font-family:var(--serif);
+  font-size:48px;font-weight:500;
+  font-style:italic;line-height:1;
+  letter-spacing:-.02em;
+  color:var(--blue);
+}
+.hero-stat .lbl{
+  font-family:var(--mono);font-size:11px;
+  letter-spacing:.12em;text-transform:uppercase;
+  color:var(--ink-mute);margin-top:12px;
+}
+@media (max-width:780px){
+  .hero-stats{grid-template-columns:repeat(2,1fr);margin-top:50px}
+  .hero-stat .num{font-size:34px}
+}
+
+/* ─────────────────────────────────────────────────────────────
+   TOC — Module index
+─────────────────────────────────────────────────────────────── */
+.toc{
+  padding:90px 0;
+  border-top:1px solid var(--rule);
+  border-bottom:1px solid var(--rule);
+  background:var(--paper-warm);
+  position:relative;
+}
+.toc-head{
+  display:flex;justify-content:space-between;align-items:flex-end;
+  flex-wrap:wrap;gap:30px;
+  margin-bottom:50px;
+}
+.toc-head h2{
+  font-family:var(--serif);
+  font-size:clamp(36px,5vw,64px);
+  font-weight:500;letter-spacing:-.022em;line-height:1;
+}
+.toc-head h2 em{
+  font-style:italic;color:var(--blue);
+  position:relative;
+}
+.toc-head h2 em::after{
+  content:"";position:absolute;
+  bottom:.06em;left:-2%;right:-3%;
+  height:.3em;background:var(--gold-soft);
+  z-index:-1;border-radius:3px;
+  transform:rotate(-.4deg);
+}
+.toc-head p{
+  color:var(--ink-mute);font-size:15px;max-width:38ch;
+}
+
+.toc-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:18px;
+}
+.toc-card{
+  display:flex;flex-direction:column;justify-content:space-between;
+  padding:24px 22px;
+  background:var(--paper);
+  border:1px solid var(--rule);
+  border-radius:14px;
+  min-height:120px;
+  position:relative;
+  transition:all .25s;
+  cursor:pointer;
+  overflow:hidden;
+}
+.toc-card::before{
+  content:"";
+  position:absolute;
+  top:0;left:0;bottom:0;
+  width:4px;
+  background:var(--blue);
+  transform:translateX(-4px);
+  transition:transform .25s;
+}
+.toc-card:hover{
+  border-color:var(--blue);
+  transform:translateY(-2px);
+  box-shadow:0 8px 24px rgba(12,17,26,.06);
+}
+.toc-card:hover::before{transform:translateX(0)}
+.toc-card .n{
+  font-family:var(--mono);font-size:11px;
+  color:var(--ink-mute);letter-spacing:.14em;
+  margin-bottom:14px;font-weight:500;
+}
+.toc-card .n span{color:var(--blue);font-weight:600}
+.toc-card .t{
+  font-family:var(--serif);font-size:21px;
+  font-weight:500;line-height:1.2;letter-spacing:-.013em;
+  color:var(--ink);
+}
+.toc-card .desc{
+  font-size:13px;color:var(--ink-mute);margin-top:10px;line-height:1.5;
+}
+.toc-card .arr{
+  position:absolute;right:18px;bottom:18px;
+  font-size:18px;color:var(--blue);opacity:0;
+  transform:translateX(-4px);transition:all .25s;
+}
+.toc-card:hover .arr{opacity:1;transform:translateX(0)}
+@media (max-width:880px){.toc-grid{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:520px){.toc-grid{grid-template-columns:1fr}}
+
+/* ─────────────────────────────────────────────────────────────
+   MODULE (CHAPTER)
+─────────────────────────────────────────────────────────────── */
+.module{
+  padding:110px 0 70px;
+  position:relative;
+  border-bottom:1px solid var(--rule);
+}
+.mod-head{
+  display:grid;grid-template-columns:auto 1fr;gap:30px;
+  margin-bottom:50px;align-items:start;
+}
+.mod-num{
+  font-family:var(--serif);
+  font-size:92px;font-weight:400;font-style:italic;
+  line-height:.85;letter-spacing:-.03em;
+  color:var(--blue);
+  position:relative;
+}
+.mod-num::after{
+  content:"";
+  position:absolute;
+  bottom:6px;left:-4px;right:-4px;
+  height:6px;
+  background:var(--gold-soft);
+  z-index:-1;
+  border-radius:3px;
+}
+.mod-tag{
+  display:inline-flex;align-items:center;gap:10px;
+  font-family:var(--mono);font-size:11.5px;
+  letter-spacing:.16em;text-transform:uppercase;
+  color:var(--ink-mute);margin-bottom:16px;font-weight:500;
+}
+.mod-tag::before{
+  content:"";width:8px;height:8px;border-radius:50%;
+  background:var(--coral);
+}
+.module h2{
+  font-family:var(--serif);
+  font-size:clamp(34px,5vw,60px);
+  font-weight:500;letter-spacing:-.022em;line-height:1.05;
+  margin-bottom:20px;
+}
+.module h2 em{
+  font-style:italic;color:var(--blue);
+  position:relative;
+}
+.module h2 em::after{
+  content:"";position:absolute;
+  bottom:.04em;left:-2%;right:-3%;
+  height:.3em;background:var(--gold-soft);
+  z-index:-1;border-radius:3px;
+  transform:rotate(-.3deg);
+}
+.module .lead{
+  font-size:18.5px;line-height:1.6;
+  color:var(--ink-soft);max-width:64ch;
+}
+.module .lead strong{
+  color:var(--ink);font-weight:600;
+}
+@media (max-width:780px){
+  .module{padding:70px 0 50px}
+  .mod-head{grid-template-columns:1fr;gap:14px}
+  .mod-num{font-size:64px}
+}
+
+/* sub-section divider */
+.sub{
+  display:flex;align-items:center;gap:14px;
+  margin:50px 0 22px;
+  font-family:var(--mono);font-size:12px;
+  letter-spacing:.14em;text-transform:uppercase;
+  color:var(--ink-mute);font-weight:500;
+}
+.sub::before,.sub::after{
+  content:"";flex:1;height:1px;
+  background:repeating-linear-gradient(90deg,var(--rule) 0 6px,transparent 6px 10px);
+}
+.sub .label{color:var(--blue);font-weight:600}
+
+/* ─────────────────────────────────────────────────────────────
+   CARDS · GRID
+─────────────────────────────────────────────────────────────── */
+.cards{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:18px;
+  margin-top:28px;
+}
+.cards.cols-2{grid-template-columns:repeat(2,1fr)}
+.cards.cols-4{grid-template-columns:repeat(4,1fr)}
+@media (max-width:980px){
+  .cards,.cards.cols-3,.cards.cols-4{grid-template-columns:repeat(2,1fr)}
+}
+@media (max-width:540px){
+  .cards,.cards.cols-2,.cards.cols-3,.cards.cols-4{grid-template-columns:1fr}
+}
+
+.card{
+  padding:24px 22px;
+  background:var(--paper);
+  border:1px solid var(--rule);
+  border-radius:12px;
+  transition:all .25s;
+  position:relative;
+  display:flex;flex-direction:column;gap:10px;
+}
+.card:hover{
+  transform:translateY(-2px);
+  border-color:var(--blue);
+  box-shadow:0 6px 20px rgba(12,17,26,.05);
+}
+.card .ix{
+  font-family:var(--mono);font-size:10.5px;
+  letter-spacing:.14em;color:var(--blue);
+  text-transform:uppercase;font-weight:600;
+}
+.card h4{
+  font-family:var(--serif);font-size:22px;
+  font-weight:500;line-height:1.2;letter-spacing:-.013em;
+  color:var(--ink);
+}
+.card h4 em{font-style:italic;color:var(--blue)}
+.card p{font-size:14px;color:var(--ink-soft);line-height:1.6}
+.card ul{list-style:none;font-size:13.5px;color:var(--ink-soft)}
+.card ul li{
+  padding:5px 0 5px 16px;position:relative;
+  line-height:1.55;
+}
+.card ul li::before{
+  content:"→";position:absolute;left:0;
+  color:var(--blue);font-weight:600;
+}
+.card strong{color:var(--ink);font-weight:600}
+.card code{
+  font-family:var(--mono);font-size:12px;
+  padding:1px 6px;background:var(--blue-glow);
+  color:var(--blue-d);border-radius:4px;
+}
+
+/* card category variants — color-coded by topic type */
+.card.math{border-left:3px solid var(--plum)}
+.card.math .ix{color:var(--plum)}
+.card.math h4 em{color:var(--plum)}
+.card.math ul li::before{color:var(--plum)}
+
+.card.algo{border-left:3px solid var(--blue)}
+.card.algo .ix{color:var(--blue)}
+
+.card.tool{border-left:3px solid var(--mint)}
+.card.tool .ix{color:var(--mint)}
+.card.tool h4 em{color:var(--mint)}
+
+.card.warn{border-left:3px solid var(--coral)}
+.card.warn .ix{color:var(--coral-d)}
+.card.warn h4 em{color:var(--coral-d)}
+
+.card.featured{
+  background:linear-gradient(135deg,var(--blue-glow),transparent);
+  border-color:var(--blue);
+}
+
+/* ─────────────────────────────────────────────────────────────
+   FORMULA BLOCK — "math notebook" style
+─────────────────────────────────────────────────────────────── */
+.formula{
+  margin-top:26px;
+  padding:26px 28px;
+  background:var(--plum-soft);
+  border:1px solid #d8d0f0;
+  border-left:4px solid var(--plum);
+  border-radius:10px;
+  position:relative;
+}
+.formula::before{
+  content:"𝑓(𝑥)";
+  position:absolute;top:14px;right:18px;
+  font-family:var(--serif);font-style:italic;
+  font-size:16px;color:var(--plum);opacity:.4;
+}
+.formula .label{
+  font-family:var(--mono);font-size:10.5px;
+  letter-spacing:.16em;text-transform:uppercase;
+  color:var(--plum);font-weight:600;margin-bottom:12px;
+}
+.formula .eq{
+  font-family:var(--serif);font-style:italic;
+  font-size:21px;color:var(--ink);
+  line-height:1.6;letter-spacing:-.005em;
+}
+.formula .eq strong{
+  font-style:normal;font-weight:700;
+  color:var(--plum);
+}
+.formula .ex{
+  margin-top:14px;padding-top:14px;
+  border-top:1px dashed #d8d0f0;
+  font-family:var(--mono);font-size:13px;
+  color:var(--ink-soft);
+  line-height:1.7;
+}
+.formula .ex .arr{color:var(--plum);font-weight:600}
+
+/* ─────────────────────────────────────────────────────────────
+   WORKED EXAMPLE — notebook cell style
+─────────────────────────────────────────────────────────────── */
+.worked{
+  margin-top:26px;
+  border:1px solid var(--rule);
+  border-radius:10px;
+  overflow:hidden;
+  background:var(--paper);
+}
+.worked-head{
+  padding:12px 20px;
+  background:var(--paper-deep);
+  border-bottom:1px solid var(--rule);
+  display:flex;align-items:center;gap:12px;
+  font-family:var(--mono);font-size:11px;
+  letter-spacing:.14em;text-transform:uppercase;
+  color:var(--ink-mute);font-weight:500;
+}
+.worked-head::before{
+  content:"▶";color:var(--coral);font-size:9px;
+}
+.worked-head .title{color:var(--ink)}
+.worked-body{
+  padding:20px 24px;
+  font-family:var(--mono);font-size:13.5px;
+  line-height:1.85;
+  color:var(--ink-soft);
+  white-space:pre;
+  overflow-x:auto;
+}
+.worked-body .k{color:var(--blue);font-weight:600}
+.worked-body .v{color:var(--coral-d);font-weight:600}
+.worked-body .c{color:var(--ink-faint);font-style:italic}
+.worked-body .res{color:var(--mint);font-weight:600}
+.worked-body .arr{color:var(--blue)}
+.worked-body .step{
+  display:inline-block;
+  font-family:var(--serif);font-style:italic;
+  color:var(--plum);font-weight:500;
+  margin-right:8px;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   COMPARISON TABLE
+─────────────────────────────────────────────────────────────── */
+.tbl-wrap{
+  margin-top:30px;
+  border:1px solid var(--rule);
+  border-radius:12px;
+  overflow:hidden;
+  background:var(--paper);
+}
+.tbl{width:100%;border-collapse:collapse;font-size:14px}
+.tbl th,.tbl td{
+  text-align:left;padding:14px 18px;
+  border-bottom:1px solid var(--rule);
+  vertical-align:top;
+}
+.tbl th{
+  font-family:var(--mono);font-size:10.5px;
+  letter-spacing:.14em;text-transform:uppercase;
+  color:var(--ink-mute);font-weight:600;
+  background:var(--paper-warm);
+  border-bottom:2px solid var(--ink);
+}
+.tbl tr:last-child td{border-bottom:none}
+.tbl tr:hover td{background:var(--blue-glow)}
+.tbl td:first-child{color:var(--ink);font-weight:600}
+.tbl em{font-style:italic;color:var(--blue)}
+.tbl strong{color:var(--ink);font-weight:600}
+
+.pill{
+  display:inline-block;padding:3px 10px;
+  border-radius:999px;
+  font-family:var(--mono);font-size:10.5px;
+  letter-spacing:.04em;font-weight:600;
+}
+.pill.blue{background:var(--blue-soft);color:var(--blue-d)}
+.pill.mint{background:var(--mint-soft);color:#065f46}
+.pill.coral{background:var(--coral-soft);color:var(--coral-d)}
+.pill.gold{background:var(--gold-soft);color:#854d0e}
+.pill.plum{background:var(--plum-soft);color:#5b21b6}
+.pill.muted{background:var(--rule);color:var(--ink-mute)}
+
+@media (max-width:680px){
+  .tbl{font-size:12.5px;display:block;overflow-x:auto;white-space:nowrap}
+  .tbl th,.tbl td{padding:11px 12px}
+}
+
+/* ─────────────────────────────────────────────────────────────
+   "AHA MOMENT" CALLOUT
+─────────────────────────────────────────────────────────────── */
+.aha{
+  margin-top:30px;
+  padding:26px 32px 26px 80px;
+  background:var(--gold-soft);
+  border:1px solid #f3e3a8;
+  border-radius:12px;
+  position:relative;
+  font-family:var(--serif);
+  font-size:21px;line-height:1.5;font-weight:500;
+  color:var(--ink);
+}
+.aha::before{
+  content:"💡";
+  position:absolute;left:28px;top:26px;
+  font-size:32px;
+  filter:saturate(.9);
+}
+.aha .ahaLabel{
+  display:block;
+  font-family:var(--mono);font-size:10.5px;
+  letter-spacing:.16em;text-transform:uppercase;
+  color:#854d0e;font-weight:600;
+  margin-bottom:8px;font-style:normal;
+}
+.aha em{font-style:italic;color:var(--blue)}
+
+/* "Connection to LLMs" callout */
+.connect{
+  margin-top:24px;
+  padding:22px 26px;
+  background:var(--blue-glow);
+  border:1px solid #c8d8fa;
+  border-left:4px solid var(--blue);
+  border-radius:10px;
+  font-size:14.5px;line-height:1.6;
+  color:var(--ink-soft);
+}
+.connect .clab{
+  display:block;
+  font-family:var(--mono);font-size:10.5px;
+  letter-spacing:.16em;text-transform:uppercase;
+  color:var(--blue-d);font-weight:600;
+  margin-bottom:6px;
+}
+.connect strong{color:var(--ink);font-weight:600}
+.connect em{font-style:italic;color:var(--blue-d)}
+
+/* ─────────────────────────────────────────────────────────────
+   ASCII DIAGRAM BLOCK
+─────────────────────────────────────────────────────────────── */
+pre.ascii{
+  font-family:var(--mono);font-size:13px;line-height:1.65;
+  background:var(--paper-warm);
+  color:var(--ink-soft);
+  padding:28px 26px;
+  border-radius:10px;
+  border:1px solid var(--rule);
+  overflow-x:auto;
+  position:relative;
+  margin-top:24px;
+}
+pre.ascii::before{
+  content:attr(data-cap);
+  display:block;
+  font-family:var(--mono);font-size:10.5px;
+  letter-spacing:.14em;text-transform:uppercase;
+  color:var(--ink-mute);
+  margin-bottom:14px;font-weight:500;
+}
+pre.ascii .b{color:var(--blue);font-weight:600}
+pre.ascii .c{color:var(--coral-d);font-weight:600}
+pre.ascii .p{color:var(--plum);font-weight:600}
+pre.ascii .g{color:#065f46;font-weight:600}
+pre.ascii .m{color:var(--ink-faint);font-style:italic}
+
+/* ─────────────────────────────────────────────────────────────
+   ROADMAP — 12-month vertical timeline
+─────────────────────────────────────────────────────────────── */
+.roadmap{
+  margin-top:30px;
+  position:relative;
+  padding-left:32px;
+}
+.roadmap::before{
+  content:"";position:absolute;
+  left:14px;top:8px;bottom:8px;
+  width:2px;background:var(--blue);
+  border-radius:1px;
+}
+.rm-month{
+  padding:18px 0 18px 30px;
+  position:relative;
+  border-bottom:1px dashed var(--rule);
+}
+.rm-month:last-child{border-bottom:none}
+.rm-month::before{
+  content:"";
+  position:absolute;left:-26px;top:24px;
+  width:14px;height:14px;
+  border-radius:50%;
+  background:var(--paper);
+  border:3px solid var(--blue);
+}
+.rm-month.milestone::before{background:var(--blue);border-color:var(--coral)}
+.rm-month .when{
+  font-family:var(--mono);font-size:11.5px;
+  letter-spacing:.14em;text-transform:uppercase;
+  color:var(--blue);font-weight:600;margin-bottom:6px;
+}
+.rm-month h5{
+  font-family:var(--serif);font-size:22px;
+  font-weight:500;letter-spacing:-.012em;line-height:1.2;
+  color:var(--ink);margin-bottom:8px;
+}
+.rm-month h5 em{font-style:italic;color:var(--blue)}
+.rm-month p{
+  font-size:14.5px;color:var(--ink-soft);line-height:1.6;
+}
+.rm-month p strong{color:var(--ink);font-weight:600}
+.rm-month .proj{
+  display:inline-block;
+  font-family:var(--mono);font-size:11px;
+  padding:3px 10px;background:var(--gold-soft);
+  color:#854d0e;border-radius:99px;
+  margin-top:10px;font-weight:600;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   FOOTER
+─────────────────────────────────────────────────────────────── */
+footer{
+  background:var(--ink);color:var(--paper);
+  padding:80px 0 50px;
+  position:relative;overflow:hidden;
+}
+footer::before{
+  content:"";
+  position:absolute;
+  top:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,var(--blue),var(--coral),var(--blue),transparent);
+}
+.foot-grid{
+  display:grid;grid-template-columns:1.5fr 1fr;gap:50px;
+  align-items:end;
+  padding-bottom:36px;
+  border-bottom:1px solid #2a3243;
+  margin-bottom:28px;
+}
+.foot-mark{
+  font-family:var(--serif);
+  font-size:clamp(32px,5vw,52px);
+  font-weight:500;letter-spacing:-.022em;line-height:1.05;
+  color:var(--paper);
+}
+.foot-mark em{
+  font-style:italic;color:#7fa9ff;
+}
+.foot-mark .by{
+  display:block;
+  font-family:var(--mono);font-size:11px;
+  letter-spacing:.16em;text-transform:uppercase;
+  color:#9ca6b8;margin-top:18px;font-weight:400;
+}
+.foot-mark .by strong{color:var(--paper);font-weight:600}
+.foot-meta{
+  font-family:var(--serif);font-style:italic;
+  font-size:15px;line-height:1.55;
+  color:#9ca6b8;
+}
+.foot-base{
+  display:flex;justify-content:space-between;
+  align-items:center;flex-wrap:wrap;gap:14px;
+  font-family:var(--mono);font-size:11px;
+  letter-spacing:.12em;text-transform:uppercase;
+  color:#6b7488;
+}
+@media (max-width:780px){
+  .foot-grid{grid-template-columns:1fr;gap:24px;align-items:start}
+  footer{padding:60px 0 40px}
+}
+
+/* ─────────────────────────────────────────────────────────────
+   FADE-IN
+─────────────────────────────────────────────────────────────── */
+.fade-up{
+  opacity:0;transform:translateY(20px);
+  transition:opacity .7s ease,transform .7s ease;
+}
+.fade-up.in{opacity:1;transform:none}
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════════════════
+     NAV
+═══════════════════════════════════════════════════════════ -->
+<nav class="topbar">
+  <div class="brand">
+    <span class="mark">M<i>L</i></span>
+    <span>ML Mastery<i> · the curriculum</i></span>
+  </div>
+  <div class="nav-links">
+    <a href="#syllabus">Syllabus</a>
+    <a href="#m2">Math</a>
+    <a href="#m3">Algorithms</a>
+    <a href="#m4">Deep Learning</a>
+    <a href="#m6">LLMs</a>
+    <a href="#m9">Roadmap</a>
+  </div>
+  <a href="#syllabus" class="nav-cta">Start Learning →</a>
+</nav>
+
+<!-- ═══════════════════════════════════════════════════════════
+     HERO
+═══════════════════════════════════════════════════════════ -->
+<header class="hero">
+  <div class="shell">
+
+    <div class="byline">
+      <div class="byline-photo">
+        <span class="ini">TT</span>
+        <img src="./portrait.jpg" alt="Tejeswar Reddy Tadi" onerror="this.style.display='none'" />
+      </div>
+      <div class="byline-info">
+        <div class="byline-name">Tejeswar Reddy Tadi</div>
+        <div class="byline-role">
+          <span class="pip"></span>
+          <span>AI Engineer</span>
+          <span class="sep">/</span>
+          <span>Accenture</span>
+          <span class="badge">6 yrs exp</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="eyebrow">A master curriculum · beginner to expert · 9 modules</div>
+
+    <h1 class="title">
+      Machine<br>
+      <em>Learning</em><br>
+      Mastery.
+      <span class="pt">Math · Algorithms · Deep Learning · LLMs · Tools · Career</span>
+    </h1>
+
+    <div class="hero-grid">
+      <div>
+        <p class="lead">A complete, ground-up Machine Learning curriculum — explained in <strong>simple English a high-school graduate can follow</strong>. Every concept comes with intuition first, math second, a real-world analogy, a visual, and a worked example. Built so a software engineer with zero ML background can learn end-to-end.</p>
+      </div>
+      <div class="secondary">
+        <p>From the 1950s Perceptron to today's Transformers and Agentic AI. Every algorithm, every formula, every modern technique — with the connection to today's LLMs spelled out at every step. Treat it as a curriculum the first time, a reference forever after.</p>
+      </div>
+    </div>
+
+    <div class="hero-stats">
+      <div class="hero-stat fade-up">
+        <div class="num">9</div>
+        <div class="lbl">Modules · Beginner→Expert</div>
+      </div>
+      <div class="hero-stat fade-up">
+        <div class="num">60+</div>
+        <div class="lbl">Algorithms · Detailed</div>
+      </div>
+      <div class="hero-stat fade-up">
+        <div class="num">12</div>
+        <div class="lbl">Month Study Plan</div>
+      </div>
+      <div class="hero-stat fade-up">
+        <div class="num">∞</div>
+        <div class="lbl">LLM Connections</div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ═══════════════════════════════════════════════════════════
+     SYLLABUS (TOC)
+═══════════════════════════════════════════════════════════ -->
+<section class="toc" id="syllabus">
+  <div class="shell">
+    <div class="toc-head">
+      <h2>The <em>syllabus.</em></h2>
+      <p>Nine modules, in the order they should be learned. Read them top-to-bottom the first time, then jump back whenever you need a refresher.</p>
+    </div>
+    <div class="toc-grid">
+      <a href="#m1" class="toc-card">
+        <div>
+          <div class="n">MODULE <span>01</span></div>
+          <div class="t">Historical Context &amp; The Big Picture</div>
+          <p class="desc">Symbolic AI → Expert Systems → Classical ML → Deep Learning → Transformers → LLMs → Agents.</p>
+        </div>
+        <span class="arr">→</span>
+      </a>
+      <a href="#m2" class="toc-card">
+        <div>
+          <div class="n">MODULE <span>02</span></div>
+          <div class="t">Mathematical Foundation</div>
+          <p class="desc">Linear algebra, calculus, probability, statistics, information theory, optimization.</p>
+        </div>
+        <span class="arr">→</span>
+      </a>
+      <a href="#m3" class="toc-card">
+        <div>
+          <div class="n">MODULE <span>03</span></div>
+          <div class="t">The Algorithm Library</div>
+          <p class="desc">Regression, classification, ensembles, clustering, dim reduction, time series, RL.</p>
+        </div>
+        <span class="arr">→</span>
+      </a>
+      <a href="#m4" class="toc-card">
+        <div>
+          <div class="n">MODULE <span>04</span></div>
+          <div class="t">Deep Learning · Full Stack</div>
+          <p class="desc">MLPs, CNNs, RNNs, Transformers, GANs, Diffusion, GNNs.</p>
+        </div>
+        <span class="arr">→</span>
+      </a>
+      <a href="#m5" class="toc-card">
+        <div>
+          <div class="n">MODULE <span>05</span></div>
+          <div class="t">The Full ML Lifecycle</div>
+          <p class="desc">Data → features → training → evaluation → interpretability → fairness.</p>
+        </div>
+        <span class="arr">→</span>
+      </a>
+      <a href="#m6" class="toc-card">
+        <div>
+          <div class="n">MODULE <span>06</span></div>
+          <div class="t">The LLM &amp; GenAI Era</div>
+          <p class="desc">Embeddings → Transformers → fine-tuning → RAG → Agents → Multi-modal.</p>
+        </div>
+        <span class="arr">→</span>
+      </a>
+      <a href="#m7" class="toc-card">
+        <div>
+          <div class="n">MODULE <span>07</span></div>
+          <div class="t">The Complete Toolbox</div>
+          <p class="desc">Every library, framework, vector DB, and platform you'll actually use.</p>
+        </div>
+        <span class="arr">→</span>
+      </a>
+      <a href="#m8" class="toc-card">
+        <div>
+          <div class="n">MODULE <span>08</span></div>
+          <div class="t">Needs → Solutions</div>
+          <p class="desc">Common problems and the exact tool that solves each one.</p>
+        </div>
+        <span class="arr">→</span>
+      </a>
+      <a href="#m9" class="toc-card">
+        <div>
+          <div class="n">MODULE <span>09</span></div>
+          <div class="t">Professional Roadmap</div>
+          <p class="desc">Roles compared, 12-month study plan, portfolio projects, modern hiring bar.</p>
+        </div>
+        <span class="arr">→</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════
+     MODULE 1 — HISTORY
+═══════════════════════════════════════════════════════════ -->
+<section class="module" id="m1">
+  <div class="shell">
+    <div class="mod-head">
+      <div class="mod-num">01</div>
+      <div>
+        <div class="mod-tag">The big picture</div>
+        <h2>Where ML came from —<br>and <em>where it is now.</em></h2>
+        <p class="lead">Before you can build the future, understand the past. Machine Learning didn't appear in 2022 with ChatGPT. It's a <strong>70-year story</strong> of waves of breakthroughs, winters, and revolutions. Knowing this timeline tells you why today's tools look the way they do.</p>
+      </div>
+    </div>
+
+    <div class="sub"><span class="label">1.1</span><span>The Timeline · Seven Waves of AI</span></div>
+
+    <pre class="ascii" data-cap="Fig. 1.1 — 70 years of AI in one diagram">
+<span class="m">1950s ───────────────────────────────────────────────────────── 2026</span>
+
+<span class="b">[1950s]</span>  Symbolic AI <span class="m">·</span> Perceptron (1958) <span class="m">·</span> "thinking machines"
+       <span class="m">└──→</span> handwritten rules · no learning from data
+
+<span class="b">[1970s-80s]</span>  Expert Systems <span class="m">·</span> Prolog <span class="m">·</span> first "AI winter"
+       <span class="m">└──→</span> if-then chains · brittle, didn't scale
+
+<span class="b">[1990s-2000s]</span>  Statistical / Classical ML
+       <span class="m">└──→</span> SVMs, decision trees, ensembles, random forests
+       <span class="m">└──→</span> <span class="c">learn patterns from data</span> instead of writing rules
+
+<span class="b">[2012]</span>  AlexNet wins ImageNet — Deep Learning takes over
+       <span class="m">└──→</span> GPUs + big data + neural nets = step change
+
+<span class="b">[2017]</span>  <span class="p">"Attention Is All You Need"</span> — the Transformer paper
+       <span class="m">└──→</span> kills RNNs · enables everything that comes next
+
+<span class="b">[2020]</span>  GPT-3 <span class="m">·</span> emergent abilities <span class="m">·</span> scaling laws
+<span class="b">[2022]</span>  ChatGPT goes public · the moment AI became mainstream
+<span class="b">[2023-24]</span>  GPT-4 · Claude · Gemini · Llama · open-weight wave
+<span class="b">[2024+]</span>  <span class="g">Agentic AI</span> · tool use · multi-agent · MCP · production agents</pre>
+
+    <div class="sub"><span class="label">1.2</span><span>AI vs ML vs DL vs GenAI · The Nested Circles</span></div>
+
+    <pre class="ascii" data-cap="Fig. 1.2 — Nested circles (biggest → smallest)">
+<span class="m">┌─</span> <span class="b">AI</span> <span class="m">(any computer doing something "smart")</span>
+<span class="m">│</span>  <span class="m">┌─</span> <span class="b">ML</span> <span class="m">(programs that learn patterns from data)</span>
+<span class="m">│</span>  <span class="m">│</span>  <span class="m">┌─</span> <span class="b">Deep Learning</span> <span class="m">(ML with big neural networks)</span>
+<span class="m">│</span>  <span class="m">│</span>  <span class="m">│</span>  <span class="m">┌─</span> <span class="b">Generative AI</span> <span class="m">(DL that PRODUCES content)</span>
+<span class="m">│</span>  <span class="m">│</span>  <span class="m">│</span>  <span class="m">│</span>  <span class="m">┌─</span> <span class="b">LLMs</span> <span class="m">(text generators · GPT, Claude…)</span>
+<span class="m">│</span>  <span class="m">│</span>  <span class="m">│</span>  <span class="m">│</span>  <span class="m">│</span>  <span class="m">┌─</span> <span class="g">Agentic AI</span> <span class="m">(LLM + tools + goals + loops)</span>
+
+<span class="c">EXAMPLES:</span>
+  Calculator <span class="b">→</span> AI         Spam filter <span class="b">→</span> ML
+  Face unlock <span class="b">→</span> DL        ChatGPT essay <span class="b">→</span> Generative AI
+  Bot that books your flight by browsing <span class="b">→</span> Agentic AI</pre>
+
+    <div class="sub"><span class="label">1.3</span><span>Types of Machine Learning</span></div>
+
+    <div class="cards cols-4">
+      <div class="card algo">
+        <div class="ix">TYPE 01</div>
+        <h4>Supervised</h4>
+        <p>Data has labels. You teach the model: <em>"this email is spam, this one isn't."</em></p>
+        <ul><li><strong>Examples:</strong> spam filter, house-price prediction</li></ul>
+      </div>
+      <div class="card algo">
+        <div class="ix">TYPE 02</div>
+        <h4>Unsupervised</h4>
+        <p>No labels. Model finds patterns by itself: <em>"these customers behave similarly."</em></p>
+        <ul><li><strong>Examples:</strong> customer segments, anomaly detection</li></ul>
+      </div>
+      <div class="card algo">
+        <div class="ix">TYPE 03</div>
+        <h4>Self-supervised</h4>
+        <p>Model creates its own labels from the data. <em>How LLMs are pretrained.</em></p>
+        <ul><li><strong>Examples:</strong> "predict the next word" → GPT</li></ul>
+      </div>
+      <div class="card algo">
+        <div class="ix">TYPE 04</div>
+        <h4>Reinforcement</h4>
+        <p>Model learns by trial &amp; error, rewarded for good actions. <em>How AlphaGo &amp; RLHF work.</em></p>
+        <ul><li><strong>Examples:</strong> game-playing, robotics, RLHF for ChatGPT</li></ul>
+      </div>
+    </div>
+
+    <div class="aha">
+      <span class="ahaLabel">Aha Moment</span>
+      Most of <em>today's</em> AI breakthroughs (ChatGPT, Claude, Gemini) come from <strong>self-supervised</strong> learning at massive scale — the model trained itself by predicting the next word over trillions of words from the internet.
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════
+     MODULE 2 — MATH
+═══════════════════════════════════════════════════════════ -->
+<section class="module" id="m2">
+  <div class="shell">
+    <div class="mod-head">
+      <div class="mod-num">02</div>
+      <div>
+        <div class="mod-tag">The mathematical foundation</div>
+        <h2>The math you actually<br><em>need</em> — and why.</h2>
+        <p class="lead">Every ML algorithm is built on five math pillars. You don't need a PhD — you need <strong>intuition + a worked example</strong> for each. Here's the foundation, with the link to modern LLMs spelled out at every step.</p>
+      </div>
+    </div>
+
+    <div class="cards">
+      <div class="card math">
+        <div class="ix">PILLAR 01</div>
+        <h4>Linear <em>Algebra</em></h4>
+        <p>Vectors, matrices, dot products, eigenvalues, SVD. <strong>The native language</strong> of deep learning.</p>
+        <ul>
+          <li>Vectors &amp; matrices &amp; tensors</li>
+          <li>Dot product → <em>attention scores</em></li>
+          <li>Matrix multiplication → entire forward pass</li>
+          <li>SVD → dimensionality reduction</li>
+        </ul>
+      </div>
+      <div class="card math">
+        <div class="ix">PILLAR 02</div>
+        <h4><em>Calculus</em></h4>
+        <p>Derivatives, gradients, chain rule. <strong>How models learn</strong> — by following gradients downhill.</p>
+        <ul>
+          <li>Derivatives &amp; partial derivatives</li>
+          <li>Gradients (vectors of partials)</li>
+          <li>Chain rule → <em>backpropagation</em></li>
+          <li>Hessian → curvature info</li>
+        </ul>
+      </div>
+      <div class="card math">
+        <div class="ix">PILLAR 03</div>
+        <h4><em>Probability</em></h4>
+        <p>Distributions, Bayes' theorem, expectation. <strong>How models express uncertainty</strong> and predict.</p>
+        <ul>
+          <li>Bayes' theorem (spam-filter classic)</li>
+          <li>Normal, Bernoulli, Multinomial</li>
+          <li>MLE &amp; MAP estimation</li>
+          <li>Softmax → <em>token probabilities</em></li>
+        </ul>
+      </div>
+      <div class="card math">
+        <div class="ix">PILLAR 04</div>
+        <h4><em>Statistics</em></h4>
+        <p>Mean, variance, hypothesis tests, A/B testing. <strong>How you know</strong> your model actually works.</p>
+        <ul>
+          <li>Descriptive: mean · std · IQR</li>
+          <li>Inferential: confidence intervals · p-values</li>
+          <li>Correlation vs causation</li>
+          <li>A/B testing (key for production ML)</li>
+        </ul>
+      </div>
+      <div class="card math">
+        <div class="ix">PILLAR 05</div>
+        <h4>Info <em>Theory</em></h4>
+        <p>Entropy, cross-entropy, KL divergence, perplexity. <strong>The math of loss functions.</strong></p>
+        <ul>
+          <li>Entropy → measure of "surprise"</li>
+          <li>Cross-entropy → <em>the LLM loss function</em></li>
+          <li>KL divergence → distribution distance</li>
+          <li>Perplexity → THE LLM metric</li>
+        </ul>
+      </div>
+      <div class="card math">
+        <div class="ix">PILLAR 06</div>
+        <h4><em>Optimization</em></h4>
+        <p>Gradient descent and its smarter cousins. <strong>How models find</strong> good weights.</p>
+        <ul>
+          <li>SGD · Mini-batch</li>
+          <li>Momentum · Nesterov</li>
+          <li>Adam · AdamW (LLM standard)</li>
+          <li>LR schedules: warmup · cosine</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="sub"><span class="label">2.x</span><span>A Worked Example · Bayes' Theorem</span></div>
+
+    <div class="formula">
+      <div class="label">The Formula</div>
+      <div class="eq"><strong>P(A | B)</strong> &nbsp;= &nbsp;<strong>P(B | A)</strong> · <strong>P(A)</strong> &nbsp;÷&nbsp; <strong>P(B)</strong></div>
+      <div class="ex">In plain English: <span class="arr">→</span> the probability of A given that B happened equals the probability of B happening if A is true, scaled by how common A and B are in general.</div>
+    </div>
+
+    <div class="worked">
+      <div class="worked-head"><span class="title">Spam Filter · The Bayesian Way</span></div>
+      <pre class="worked-body">
+<span class="c"># Problem: an email contains the word "free". Is it spam?</span>
+
+<span class="step">Step 1.</span> Define what we know <span class="c"># the priors and likelihoods</span>
+  <span class="k">P(spam)</span>             = <span class="v">0.20</span>     <span class="c"># 20% of all email is spam</span>
+  <span class="k">P("free" | spam)</span>    = <span class="v">0.80</span>     <span class="c"># 80% of spam contains "free"</span>
+  <span class="k">P("free" | not-spam)</span> = <span class="v">0.05</span>     <span class="c"># 5% of normal email has "free"</span>
+
+<span class="step">Step 2.</span> Compute total P("free") <span class="c"># marginalization</span>
+  <span class="k">P("free")</span> = (0.80 × 0.20) + (0.05 × 0.80)
+            = 0.16  +  0.04
+            = <span class="v">0.20</span>
+
+<span class="step">Step 3.</span> Apply Bayes
+  <span class="k">P(spam | "free")</span> = (0.80 × 0.20) / 0.20
+                   = 0.16 / 0.20
+                   = <span class="res">0.80</span>    <span class="arr">→</span>  80% chance it's spam ✓</pre>
+    </div>
+
+    <div class="connect">
+      <span class="clab">Connection to modern LLMs</span>
+      Every token an LLM generates is a <strong>probability distribution</strong> over the vocabulary. The model computes <em>P(next token | all previous tokens)</em> — that's literally a conditional probability. Bayes' theorem is the conceptual ancestor of everything language models do.
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════
+     MODULE 3 — ALGORITHMS
+═══════════════════════════════════════════════════════════ -->
+<section class="module" id="m3">
+  <div class="shell">
+    <div class="mod-head">
+      <div class="mod-num">03</div>
+      <div>
+        <div class="mod-tag">The complete algorithm library</div>
+        <h2>Every algorithm —<br>when to use, when to <em>skip.</em></h2>
+        <p class="lead">Sixty-plus algorithms grouped into ten families. For each: <strong>intuition first, math second</strong>, then when to use it and when to skip it. Most production ML problems are solved by a handful — but you should know all of them exist.</p>
+      </div>
+    </div>
+
+    <div class="cards">
+      <div class="card algo">
+        <div class="ix">3.1 · REGRESSION</div>
+        <h4>Predicting numbers.</h4>
+        <ul>
+          <li>Simple &amp; Multiple Linear Regression</li>
+          <li>Polynomial Regression</li>
+          <li>Ridge (L2), Lasso (L1), Elastic Net</li>
+          <li>Bayesian Linear Regression</li>
+        </ul>
+      </div>
+      <div class="card algo">
+        <div class="ix">3.2 · CLASSIFICATION</div>
+        <h4>Predicting categories.</h4>
+        <ul>
+          <li>Logistic Regression</li>
+          <li>k-Nearest Neighbors (k-NN)</li>
+          <li>Naive Bayes · SVM · Decision Trees</li>
+          <li>LDA / QDA</li>
+        </ul>
+      </div>
+      <div class="card algo">
+        <div class="ix">3.3 · ENSEMBLES</div>
+        <h4>"Wisdom of the crowd."</h4>
+        <ul>
+          <li>Bagging · Random Forests · Extra Trees</li>
+          <li>Boosting · AdaBoost · Gradient Boost</li>
+          <li><strong>XGBoost · LightGBM · CatBoost</strong></li>
+          <li>Stacking · Blending · Voting</li>
+        </ul>
+      </div>
+      <div class="card algo">
+        <div class="ix">3.4 · CLUSTERING</div>
+        <h4>Grouping similar things.</h4>
+        <ul>
+          <li>K-Means · K-Means++</li>
+          <li>Hierarchical (Agglomerative)</li>
+          <li>DBSCAN · HDBSCAN · OPTICS</li>
+          <li>Gaussian Mixture Models · Spectral</li>
+        </ul>
+      </div>
+      <div class="card algo">
+        <div class="ix">3.5 · DIM REDUCTION</div>
+        <h4>Squeezing data smaller.</h4>
+        <ul>
+          <li>PCA · Kernel PCA</li>
+          <li>ICA · LDA (as dim reduction)</li>
+          <li><strong>t-SNE · UMAP</strong> (for visualization)</li>
+          <li>Autoencoders</li>
+        </ul>
+      </div>
+      <div class="card algo">
+        <div class="ix">3.6 · ANOMALY</div>
+        <h4>Finding the weird ones.</h4>
+        <ul>
+          <li>Isolation Forest</li>
+          <li>One-Class SVM</li>
+          <li>Local Outlier Factor (LOF)</li>
+          <li>Autoencoder reconstruction error</li>
+        </ul>
+      </div>
+      <div class="card algo">
+        <div class="ix">3.8 · TIME SERIES</div>
+        <h4>Predicting the future.</h4>
+        <ul>
+          <li>Moving avg · Exponential smoothing</li>
+          <li>ARIMA · SARIMA · SARIMAX</li>
+          <li><strong>Prophet</strong> (Facebook)</li>
+          <li>RNN / LSTM / Transformer forecasting</li>
+        </ul>
+      </div>
+      <div class="card algo">
+        <div class="ix">3.9 · RECOMMENDERS</div>
+        <h4>"You might also like…"</h4>
+        <ul>
+          <li>Content-based</li>
+          <li>Collaborative filtering</li>
+          <li>Matrix Factorization (SVD, NMF)</li>
+          <li>Two-tower neural recommenders</li>
+        </ul>
+      </div>
+      <div class="card algo featured">
+        <div class="ix">3.10 · REINFORCEMENT</div>
+        <h4>Learn by trial &amp; error.</h4>
+        <ul>
+          <li>MDPs · Value-based (Q-Learning, DQN)</li>
+          <li>Policy-based (REINFORCE, <strong>PPO</strong>)</li>
+          <li>Actor-Critic (A2C, A3C)</li>
+          <li><strong>RLHF</strong> · the trick that aligns ChatGPT</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="sub"><span class="label">3.x</span><span>Picking The Right One · Quick Decision Table</span></div>
+
+    <div class="tbl-wrap">
+      <table class="tbl">
+        <thead><tr><th>If you want to…</th><th>Start with…</th><th>If that's not enough…</th></tr></thead>
+        <tbody>
+          <tr><td>Predict a number</td><td>Linear Regression</td><td>XGBoost · LightGBM</td></tr>
+          <tr><td>Predict a category</td><td>Logistic Regression</td><td>Random Forest · XGBoost</td></tr>
+          <tr><td>Group similar items</td><td>K-Means</td><td>HDBSCAN · Spectral</td></tr>
+          <tr><td>Visualize 1000-D data in 2-D</td><td>UMAP</td><td>t-SNE</td></tr>
+          <tr><td>Detect fraud / anomalies</td><td>Isolation Forest</td><td>Autoencoder</td></tr>
+          <tr><td>Forecast a time series</td><td>Prophet</td><td>LSTM · Transformer</td></tr>
+          <tr><td>Build a recommender</td><td>Matrix Factorization</td><td>Two-tower neural net</td></tr>
+          <tr><td>Win a Kaggle table competition</td><td><strong>XGBoost</strong></td><td><strong>LightGBM</strong> · ensembles</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="aha">
+      <span class="ahaLabel">The 80 / 20 Rule</span>
+      In real-world tabular data, <em>XGBoost, LightGBM, or Random Forest</em> solves <strong>80% of problems</strong>. Master those three deeply, learn the rest broadly.
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════
+     MODULE 4 — DEEP LEARNING
+═══════════════════════════════════════════════════════════ -->
+<section class="module" id="m4">
+  <div class="shell">
+    <div class="mod-head">
+      <div class="mod-num">04</div>
+      <div>
+        <div class="mod-tag">Deep learning · full stack</div>
+        <h2>Neural networks —<br><em>from neuron</em> to transformer.</h2>
+        <p class="lead">A neuron is just a weighted sum followed by a "shape-bender" (activation function). Stack them in layers, train them with <strong>backpropagation</strong>, and you can solve problems that classical ML can't. Here's the journey — perceptron to Transformer.</p>
+      </div>
+    </div>
+
+    <pre class="ascii" data-cap="Fig. 4.1 — Anatomy of a single neuron">
+            <span class="b">w₁</span>
+   x₁ ───────────●
+                  ╲       <span class="m">┌────────────────┐</span>
+            <span class="b">w₂</span>    ●─────▶  weighted sum  ───▶  <span class="p">activation</span>  ───▶  output
+   x₂ ───────────●        <span class="m">│   z = Σ wᵢxᵢ +b │</span>     <span class="p">f(z)</span>           <span class="g">y</span>
+                  ╲       <span class="m">└────────────────┘</span>
+            <span class="b">w₃</span>    ●
+   x₃ ───────────●
+
+   <span class="m">inputs        weights      pre-activation       non-linearity</span>
+
+<span class="c">  Stack thousands of these in layers → a neural network.</span>
+<span class="c">  Add backprop → it learns from data.</span>
+<span class="c">  Add attention → you get a Transformer.</span></pre>
+
+    <div class="sub"><span class="label">4.1</span><span>The Deep Learning Family · Architectures Through Time</span></div>
+
+    <div class="cards">
+      <div class="card algo">
+        <div class="ix">ARCH 01 · 1986</div>
+        <h4>MLPs <em>· tabular data</em></h4>
+        <p>Multi-Layer Perceptrons. <strong>Foundation</strong> for everything that came after.</p>
+        <ul><li>Still useful for tabular ML</li><li>The "fully connected" layer in every modern net</li></ul>
+      </div>
+      <div class="card algo">
+        <div class="ix">ARCH 02 · 1990s+</div>
+        <h4>CNNs <em>· images</em></h4>
+        <p>Convolutional nets. Detect patterns regardless of position.</p>
+        <ul><li>LeNet → AlexNet → ResNet → ConvNeXt</li><li>Still dominant for vision</li></ul>
+      </div>
+      <div class="card algo">
+        <div class="ix">ARCH 03 · 1990s+</div>
+        <h4>RNNs / LSTMs <em>· sequences</em></h4>
+        <p>Process data in order. Mostly <strong>replaced by Transformers</strong> now.</p>
+        <ul><li>Vanilla RNN → LSTM → GRU</li><li>Still used in edge / low-resource cases</li></ul>
+      </div>
+      <div class="card algo featured">
+        <div class="ix">ARCH 04 · 2017</div>
+        <h4>Transformers <em>· everything</em></h4>
+        <p><strong>The architecture that runs the world.</strong> Self-attention replaced recurrence. Powers every modern LLM.</p>
+        <ul><li>Q, K, V · multi-head attention</li><li>Positional encoding · RoPE · ALiBi</li><li>ViT (vision) · Whisper (audio) · everything</li></ul>
+      </div>
+      <div class="card algo">
+        <div class="ix">ARCH 05 · 2014+</div>
+        <h4>GANs &amp; <em>VAEs</em></h4>
+        <p>Generate new images, audio, video. Two networks competing.</p>
+        <ul><li>GANs: Generator vs Discriminator</li><li>VAEs: probabilistic encoder/decoder</li></ul>
+      </div>
+      <div class="card algo">
+        <div class="ix">ARCH 06 · 2020+</div>
+        <h4>Diffusion <em>models</em></h4>
+        <p>Add noise · learn to remove it. <strong>The engine of Stable Diffusion · DALL-E · Midjourney.</strong></p>
+        <ul><li>Mostly replaced GANs for image generation</li></ul>
+      </div>
+    </div>
+
+    <div class="sub"><span class="label">4.6</span><span>The Transformer · The Most Important Idea in Modern AI</span></div>
+
+    <div class="formula">
+      <div class="label">Self-Attention · The Heart of the Transformer</div>
+      <div class="eq"><strong>Attention(Q, K, V)</strong> &nbsp;= &nbsp;softmax<sub></sub>( <strong>Q · K<sup>T</sup></strong> ÷ √d<sub>k</sub> ) &nbsp;·&nbsp; <strong>V</strong></div>
+      <div class="ex">In plain English: <span class="arr">→</span> Q ("query") asks <em>"what am I looking for?"</em> · K ("key") answers <em>"here's what I am."</em> · their dot product measures <em>match strength</em> · softmax turns those into weights · weights mix V ("values") into the output. <strong>Every word looks at every other word</strong> and decides what to pay attention to.</div>
+    </div>
+
+    <div class="aha">
+      <span class="ahaLabel">Why It Changed Everything</span>
+      RNNs read sequences <em>one word at a time</em> — slow, and they forget the start by the time they reach the end. Transformers read <strong>everything at once</strong>, in parallel, and let each word decide what matters most. That's why GPT, Claude, and Gemini exist.
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════
+     MODULE 5 — LIFECYCLE
+═══════════════════════════════════════════════════════════ -->
+<section class="module" id="m5">
+  <div class="shell">
+    <div class="mod-head">
+      <div class="mod-num">05</div>
+      <div>
+        <div class="mod-tag">The full ML lifecycle</div>
+        <h2>From messy data —<br>to <em>shipped</em> model.</h2>
+        <p class="lead">A model is 10% of the work. Data prep, evaluation, interpretability, and shipping are the other 90%. Here's the full pipeline that every serious ML project follows.</p>
+      </div>
+    </div>
+
+    <pre class="ascii" data-cap="Fig. 5.1 — The end-to-end ML lifecycle">
+  <span class="b">[1] Define</span>      <span class="b">[2] Collect</span>     <span class="b">[3] Explore</span>      <span class="b">[4] Clean</span>
+  problem  ──▶  data  ──────▶  EDA · plots ───▶  missing · dupes · outliers
+                                                          │
+                                                          ▼
+  <span class="b">[5] Engineer</span>                                <span class="b">[6] Split</span>
+  features ◀─────────────────────────────────  train · val · test
+       │
+       ▼
+  <span class="p">[7] Train</span>      <span class="p">[8] Tune</span>          <span class="p">[9] Evaluate</span>     <span class="p">[10] Interpret</span>
+  baseline ───▶  hyperparams ───▶  metrics ───▶  SHAP · LIME · fairness
+       │
+       ▼
+  <span class="g">[11] Deploy</span>     <span class="g">[12] Monitor</span>      <span class="g">[13] Retrain</span>
+  ship  ───────▶  drift + perf ───▶  fresh data
+                                          │
+                                          └──── back to [4] ────┐
+                                                                ▼ forever</pre>
+
+    <div class="sub"><span class="label">5.x</span><span>The Evaluation Metric Cheat Sheet</span></div>
+
+    <div class="tbl-wrap">
+      <table class="tbl">
+        <thead><tr><th>Problem Type</th><th>Use This Metric</th><th>When To Switch</th></tr></thead>
+        <tbody>
+          <tr><td>Binary classification, balanced</td><td><span class="pill blue">Accuracy</span> <span class="pill blue">F1</span></td><td>If classes imbalanced → switch to F1 / PR-AUC</td></tr>
+          <tr><td>Binary classification, imbalanced</td><td><span class="pill coral">PR-AUC</span> <span class="pill coral">F1</span></td><td>Use precision/recall by what's costly</td></tr>
+          <tr><td>Multi-class classification</td><td><span class="pill blue">Macro F1</span> <span class="pill blue">Log Loss</span></td><td>Confusion matrix tells the story</td></tr>
+          <tr><td>Regression</td><td><span class="pill blue">RMSE</span> <span class="pill blue">MAE</span></td><td>RMSE penalises big errors more</td></tr>
+          <tr><td>Ranking / Search</td><td><span class="pill plum">NDCG</span> <span class="pill plum">MRR</span> <span class="pill plum">MAP</span></td><td>NDCG when graded relevance</td></tr>
+          <tr><td>Clustering</td><td><span class="pill mint">Silhouette</span></td><td>If you have labels → ARI · NMI</td></tr>
+          <tr><td>LLM / Generation</td><td><span class="pill gold">Perplexity</span> <span class="pill gold">BLEU</span> <span class="pill gold">ROUGE</span></td><td>+ Human eval · LLM-as-judge</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="connect">
+      <span class="clab">Connection to modern LLMs</span>
+      The classical lifecycle hasn't gone away — it's been <strong>extended</strong>. LLM evaluation now adds <em>faithfulness</em> (does the answer match the retrieved doc?), <em>hallucination rate</em>, <em>jailbreak resistance</em>, and <em>LLM-as-judge</em> scoring. The pipeline gets longer; it doesn't get shorter.
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════
+     MODULE 6 — LLM ERA
+═══════════════════════════════════════════════════════════ -->
+<section class="module" id="m6">
+  <div class="shell">
+    <div class="mod-head">
+      <div class="mod-num">06</div>
+      <div>
+        <div class="mod-tag">The LLM &amp; GenAI era</div>
+        <h2>From word embeddings —<br>to <em>agents.</em></h2>
+        <p class="lead">A 10-year story of how computers learned to actually understand language. Each step <strong>built on the previous</strong>: bag-of-words → word2vec → contextual embeddings → Transformers → GPT → ChatGPT → agents. Knowing this story tells you why today's LLMs work the way they do.</p>
+      </div>
+    </div>
+
+    <pre class="ascii" data-cap="Fig. 6.1 — How LLMs evolved (the timeline that matters)">
+  <span class="b">[2013]</span>  Word2Vec / GloVe        <span class="m">→</span>  one vector per word
+                                          <span class="m">└──</span> can't tell "bank (river)" from "bank (money)"
+
+  <span class="b">[2018]</span>  ELMo · BERT             <span class="m">→</span>  <span class="g">context-aware</span> embeddings
+                                          <span class="m">└──</span> different vector for each meaning
+
+  <span class="b">[2018]</span>  GPT-1                   <span class="m">→</span>  decoder-only · "predict next word"
+  <span class="b">[2019]</span>  GPT-2                   <span class="m">→</span>  emergence of zero-shot ability
+  <span class="b">[2020]</span>  GPT-3                   <span class="m">→</span>  scaling laws · in-context learning
+  <span class="b">[2022]</span>  <span class="p">ChatGPT</span>                 <span class="m">→</span>  RLHF · instruction following
+
+  <span class="b">[2023]</span>  GPT-4 · Claude · Gemini <span class="m">→</span>  multi-modal · long context · tool use
+  <span class="b">[2024]</span>  Llama 3 · open-weight wave
+  <span class="b">[2024+]</span>  <span class="g">Agentic AI</span>           <span class="m">→</span>  RAG · MCP · multi-agent · production</pre>
+
+    <div class="cards">
+      <div class="card algo">
+        <div class="ix">STAGE 01</div>
+        <h4>Tokenization</h4>
+        <p>Text → small pieces of tokens. <code>BPE</code>, <code>WordPiece</code>, <code>SentencePiece</code>, <code>tiktoken</code>.</p>
+      </div>
+      <div class="card algo">
+        <div class="ix">STAGE 02</div>
+        <h4>Pre-training</h4>
+        <p>Self-supervised on huge corpora. <em>Predict the next token.</em> Trillions of tokens. Months. Millions of dollars.</p>
+      </div>
+      <div class="card algo">
+        <div class="ix">STAGE 03</div>
+        <h4>Fine-tuning</h4>
+        <p>Adapt a base model to a task or style. <strong>LoRA · QLoRA · adapters</strong> = cheap. Full fine-tune = expensive.</p>
+      </div>
+      <div class="card algo">
+        <div class="ix">STAGE 04</div>
+        <h4>Alignment</h4>
+        <p>Make it follow instructions safely. <strong>RLHF · DPO · Constitutional AI.</strong> The trick that made ChatGPT useful.</p>
+      </div>
+      <div class="card algo featured">
+        <div class="ix">STAGE 05</div>
+        <h4>RAG <em>· retrieval</em></h4>
+        <p>Look things up before answering. <strong>Cure for hallucinations.</strong> Vector DBs + reranker + LLM.</p>
+      </div>
+      <div class="card algo">
+        <div class="ix">STAGE 06</div>
+        <h4>Prompting</h4>
+        <p>Zero-shot · few-shot · chain-of-thought · ReAct · tree-of-thought · self-consistency.</p>
+      </div>
+      <div class="card algo featured">
+        <div class="ix">STAGE 07</div>
+        <h4>Agentic AI</h4>
+        <p>LLM in a loop with tools and goals. Function calling · MCP · multi-agent · memory.</p>
+      </div>
+      <div class="card algo">
+        <div class="ix">STAGE 08</div>
+        <h4>Multi-modal</h4>
+        <p><strong>CLIP · LLaVA · GPT-4V · Gemini · Claude vision.</strong> Text + image + audio + video.</p>
+      </div>
+      <div class="card algo">
+        <div class="ix">STAGE 09</div>
+        <h4>Efficiency</h4>
+        <p>Quantization · distillation · MoE · <strong>Flash Attention</strong> · KV cache.</p>
+      </div>
+    </div>
+
+    <div class="aha">
+      <span class="ahaLabel">The Trick That Made ChatGPT</span>
+      The base GPT model was already powerful in 2020. But it was raw — happy to complete <em>"how do I make a bomb…"</em>. <strong>RLHF</strong> (Reinforcement Learning from Human Feedback) was the trick: humans rated outputs, the model learned what humans <em>preferred</em>, and <em>that</em> is what we call ChatGPT today.
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════
+     MODULE 7 — TOOLBOX
+═══════════════════════════════════════════════════════════ -->
+<section class="module" id="m7">
+  <div class="shell">
+    <div class="mod-head">
+      <div class="mod-num">07</div>
+      <div>
+        <div class="mod-tag">The complete toolbox</div>
+        <h2>Every tool —<br>and when to use <em>which.</em></h2>
+        <p class="lead">You can't memorize a hundred libraries. But you should know <strong>which one fits which job</strong>. Here's the modern ML stack, organized by layer.</p>
+      </div>
+    </div>
+
+    <div class="tbl-wrap">
+      <table class="tbl">
+        <thead><tr><th>Category</th><th>Tools</th><th>What they're for</th></tr></thead>
+        <tbody>
+          <tr><td>Languages</td><td><strong>Python</strong> · R · Julia · SQL</td><td>Python is the default for everything ML</td></tr>
+          <tr><td>Numerical &amp; Data</td><td>NumPy · <strong>Pandas</strong> · Polars · SciPy · Dask · Modin</td><td>Manipulate arrays and tables</td></tr>
+          <tr><td>Visualization</td><td>Matplotlib · Seaborn · Plotly · Bokeh · Altair</td><td>Plots, charts, dashboards</td></tr>
+          <tr><td>Classical ML</td><td><strong>Scikit-Learn</strong> · XGBoost · LightGBM · CatBoost · Statsmodels</td><td>Models without a GPU</td></tr>
+          <tr><td>Deep Learning</td><td><strong>PyTorch</strong> · TensorFlow · Keras · JAX · PyTorch Lightning · fastai</td><td>Build &amp; train neural networks</td></tr>
+          <tr><td>LLM frameworks</td><td><strong>Hugging Face</strong> · LangChain · LlamaIndex · Haystack · DSPy · vLLM · Ollama · llama.cpp</td><td>Use, fine-tune, host LLMs</td></tr>
+          <tr><td>Vector DBs</td><td>FAISS · Pinecone · Weaviate · Milvus · <strong>Qdrant</strong> · Chroma · pgvector</td><td>Store &amp; search embeddings</td></tr>
+          <tr><td>Experiment tracking</td><td><strong>MLflow</strong> · Weights &amp; Biases · Neptune · Comet</td><td>Log runs, compare, reproduce</td></tr>
+          <tr><td>Data versioning</td><td><strong>DVC</strong> · LakeFS · Pachyderm</td><td>"Git for data"</td></tr>
+          <tr><td>Orchestration</td><td>Airflow · <strong>Prefect</strong> · Dagster · Kubeflow · Metaflow</td><td>Schedule &amp; run pipelines</td></tr>
+          <tr><td>Feature stores</td><td>Feast · Tecton · Hopsworks</td><td>Centralize features across teams</td></tr>
+          <tr><td>Model serving</td><td><strong>FastAPI</strong> · TorchServe · Triton · BentoML · Ray Serve · <strong>vLLM</strong> · TGI</td><td>Deploy models behind an API</td></tr>
+          <tr><td>Cloud ML platforms</td><td>AWS SageMaker · GCP Vertex AI · Azure ML · <strong>Databricks</strong> · Snowflake ML</td><td>Managed end-to-end ML</td></tr>
+          <tr><td>LLM APIs</td><td>OpenAI · <strong>Anthropic</strong> · Google · Mistral · Cohere · Together · Groq · Fireworks</td><td>Call frontier models</td></tr>
+          <tr><td>Monitoring</td><td>Evidently · Arize · WhyLabs · Fiddler · Aporia</td><td>Catch drift, regressions, hallucinations</td></tr>
+          <tr><td>Annotation</td><td>Labelbox · Scale AI · Prodigy · Snorkel · <strong>Argilla</strong></td><td>Label data efficiently</td></tr>
+          <tr><td>Containers</td><td><strong>Docker</strong> · Kubernetes · Helm</td><td>Package &amp; deploy reliably</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════
+     MODULE 8 — NEEDS → SOLUTIONS
+═══════════════════════════════════════════════════════════ -->
+<section class="module" id="m8">
+  <div class="shell">
+    <div class="mod-head">
+      <div class="mod-num">08</div>
+      <div>
+        <div class="mod-tag">Needs → solutions · the practical map</div>
+        <h2>"I have <em>this</em> problem" —<br>"Use <em>that.</em>"</h2>
+        <p class="lead">The fastest way to learn ML is by problem, not by algorithm. Here are the situations you'll actually hit, and the tool that solves each one.</p>
+      </div>
+    </div>
+
+    <div class="tbl-wrap">
+      <table class="tbl">
+        <thead><tr><th>If you have this need…</th><th>Use this solution</th></tr></thead>
+        <tbody>
+          <tr><td>Training data is messy</td><td><strong>Pandas</strong> + custom preprocessing pipelines</td></tr>
+          <tr><td>Model overfits the training data</td><td>Regularization (L1, L2, dropout) · cross-validation · more data</td></tr>
+          <tr><td>Inference is too slow</td><td>Quantization · distillation · ONNX · batching · <strong>vLLM</strong></td></tr>
+          <tr><td>LLM hallucinates facts</td><td><strong>RAG</strong> with a vector DB</td></tr>
+          <tr><td>LLM is too big to fine-tune</td><td><strong>LoRA / QLoRA / PEFT</strong></td></tr>
+          <tr><td>Can't reproduce yesterday's experiment</td><td>MLflow + DVC + Git</td></tr>
+          <tr><td>Model accuracy is dropping in production</td><td>Monitoring with <strong>Evidently / Arize</strong> · then retrain</td></tr>
+          <tr><td>Labelling is too expensive</td><td>Weak supervision (Snorkel) · semi-supervised learning</td></tr>
+          <tr><td>LLM responses are inconsistent</td><td>Prompt eval frameworks · <strong>LLM-as-judge</strong> · regression suites</td></tr>
+          <tr><td>LLM API bills are eating margin</td><td>Caching · smaller models · distillation · batching · prompt cache</td></tr>
+          <tr><td>Tabular data, you want best accuracy fast</td><td><strong>XGBoost</strong> or <strong>LightGBM</strong> — go-to for Kaggle wins</td></tr>
+          <tr><td>Need to visualize high-dim data</td><td><strong>UMAP</strong> · t-SNE</td></tr>
+          <tr><td>Classes are very imbalanced</td><td>SMOTE · class weights · <strong>focal loss</strong></td></tr>
+          <tr><td>Need to explain a model decision</td><td><strong>SHAP</strong> · LIME · permutation importance</td></tr>
+          <tr><td>Need to ship a model behind an API</td><td><strong>FastAPI</strong> + Docker + Kubernetes</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════
+     MODULE 9 — ROADMAP
+═══════════════════════════════════════════════════════════ -->
+<section class="module" id="m9">
+  <div class="shell">
+    <div class="mod-head">
+      <div class="mod-num">09</div>
+      <div>
+        <div class="mod-tag">Professional roadmap · zero to hero</div>
+        <h2>The 12-month plan —<br>and the roles <em>after.</em></h2>
+        <p class="lead">Twelve months, one project per month, you walk out an employable ML engineer. <strong>Follow it in order</strong> — every month builds on the last. Stop at any milestone that matches your goal.</p>
+      </div>
+    </div>
+
+    <div class="sub"><span class="label">9.1</span><span>ML Roles · Honestly Compared</span></div>
+
+    <div class="tbl-wrap">
+      <table class="tbl">
+        <thead><tr><th>Role</th><th>What they do</th><th>Core skills</th><th>Tier (2026)</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Data Analyst</strong></td><td>Dashboards · ad-hoc analysis · stakeholder reports</td><td>SQL · Excel · Tableau · light Python</td><td><span class="pill mint">Entry</span></td></tr>
+          <tr><td><strong>Data Scientist</strong></td><td>Experiments · A/B tests · classical ML</td><td>Stats · Python · Scikit · SQL · communication</td><td><span class="pill blue">Mid</span></td></tr>
+          <tr><td><strong>ML Engineer</strong></td><td>Build, train, ship models to production</td><td>Python · PyTorch · Docker · APIs · cloud</td><td><span class="pill blue">Mid-Senior</span></td></tr>
+          <tr><td><strong>MLOps Engineer</strong></td><td>Pipelines · monitoring · retraining infra</td><td>K8s · Airflow · MLflow · cloud · DevOps</td><td><span class="pill blue">Senior</span></td></tr>
+          <tr><td><strong>AI / LLM Engineer</strong></td><td>RAG · agents · fine-tuning · prompts</td><td>LLM APIs · LangGraph · vector DBs · MCP</td><td><span class="pill coral">Hottest 2026</span></td></tr>
+          <tr><td><strong>Research Scientist</strong></td><td>Novel architectures · papers · benchmarks</td><td>PhD · math · PyTorch · publication record</td><td><span class="pill plum">Specialist</span></td></tr>
+          <tr><td><strong>AI Architect</strong></td><td>System design · platform · governance</td><td>Distributed systems · ML · cloud · security</td><td><span class="pill gold">Lead</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="sub"><span class="label">9.2</span><span>The 12-Month Study Plan</span></div>
+
+    <div class="roadmap">
+      <div class="rm-month">
+        <div class="when">Month 01–02 · Foundations</div>
+        <h5>Python &amp; <em>Math</em> Refresh</h5>
+        <p>Python deeply (lists, dicts, classes, NumPy, Pandas). Linear algebra + calculus + probability — just enough.</p>
+        <span class="proj">📁 Project · Titanic survival prediction</span>
+      </div>
+      <div class="rm-month">
+        <div class="when">Month 03</div>
+        <h5>Classical ML <em>· the workhorses</em></h5>
+        <p>Linear &amp; logistic regression · decision trees · Random Forest · XGBoost. Cross-validation. Metrics.</p>
+        <span class="proj">📁 Project · Customer churn prediction</span>
+      </div>
+      <div class="rm-month">
+        <div class="when">Month 04</div>
+        <h5>Unsupervised &amp; <em>Feature Engineering</em></h5>
+        <p>K-Means · PCA · UMAP. Feature engineering · scaling · encoding · imbalance handling.</p>
+        <span class="proj">📁 Project · Customer segmentation</span>
+      </div>
+      <div class="rm-month">
+        <div class="when">Month 05</div>
+        <h5>Deep Learning <em>· part one</em></h5>
+        <p>PyTorch · MLPs · backprop by hand · activation functions · loss functions · optimizers.</p>
+        <span class="proj">📁 Project · MNIST digit classifier (from scratch)</span>
+      </div>
+      <div class="rm-month">
+        <div class="when">Month 06</div>
+        <h5>CNNs &amp; <em>Computer Vision</em></h5>
+        <p>Convolutions · pooling · ResNet · transfer learning · data augmentation · ViT.</p>
+        <span class="proj">📁 Project · Image classifier with transfer learning</span>
+      </div>
+      <div class="rm-month milestone">
+        <div class="when">Month 07 · Halfway · 🎯</div>
+        <h5>Transformers <em>· from scratch</em></h5>
+        <p>Read "Attention Is All You Need." Build a tiny Transformer. Understand Q, K, V, multi-head attention, positional encoding.</p>
+        <span class="proj">📁 Project · Build a tiny GPT (Karpathy-style)</span>
+      </div>
+      <div class="rm-month">
+        <div class="when">Month 08</div>
+        <h5>NLP &amp; Embeddings</h5>
+        <p>Word2Vec → BERT → GPT. Tokenization. Sentence-transformers. Embeddings in production.</p>
+        <span class="proj">📁 Project · Sentiment analysis · BERT fine-tune</span>
+      </div>
+      <div class="rm-month">
+        <div class="when">Month 09</div>
+        <h5>LLMs &amp; <em>Fine-tuning</em></h5>
+        <p>Hugging Face deeply. Prompting (zero-shot, few-shot, CoT). LoRA / QLoRA fine-tune. PEFT.</p>
+        <span class="proj">📁 Project · LoRA fine-tune Llama on your data</span>
+      </div>
+      <div class="rm-month">
+        <div class="when">Month 10</div>
+        <h5>RAG <em>· retrieval-augmented generation</em></h5>
+        <p>Embeddings · vector DBs (pgvector, Qdrant) · chunking · hybrid search · reranking · grounding.</p>
+        <span class="proj">📁 Project · Build a RAG chatbot over your docs</span>
+      </div>
+      <div class="rm-month">
+        <div class="when">Month 11</div>
+        <h5>Agents <em>&amp; Tool Use</em></h5>
+        <p>Function calling · ReAct · LangGraph · MCP · memory. Multi-agent patterns.</p>
+        <span class="proj">📁 Project · Agentic assistant with 3+ tools</span>
+      </div>
+      <div class="rm-month milestone">
+        <div class="when">Month 12 · Capstone · 🏆</div>
+        <h5>Production <em>&amp; MLOps</em></h5>
+        <p>Docker · FastAPI · K8s · MLflow · Evidently · monitoring · drift. Ship something real.</p>
+        <span class="proj">📁 Project · End-to-end MLOps pipeline · data → model → deploy → monitor</span>
+      </div>
+    </div>
+
+    <div class="aha">
+      <span class="ahaLabel">The Most Important Habit</span>
+      <strong>One project per month</strong>, no matter how small. Theory without code is forgotten in two weeks. The portfolio you build over twelve months is what gets you hired — not the courses you finished.
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════
+     FOOTER
+═══════════════════════════════════════════════════════════ -->
+<footer>
+  <div class="shell">
+    <div class="foot-grid">
+      <div class="foot-mark">
+        Machine<br>
+        <em>Learning</em><br>
+        Mastery.
+        <span class="by">Curriculum by <strong>Tejeswar Reddy Tadi</strong> · AI Engineer · Accenture</span>
+      </div>
+      <div class="foot-meta">
+        Master the foundations. Build something every month. Connect every classical idea to where it appears in modern LLMs. The path from beginner to expert is long, but every step is walkable.
+      </div>
+    </div>
+    <div class="foot-base">
+      <span>2026 Edition · 9 Modules · 60+ algorithms · 12-month plan</span>
+      <span>Simple English · intuition first · math second</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+// Scroll-reveal — robust against anchor-link jumps
+(function(){
+  const els = document.querySelectorAll('.module, .toc, .card, .rm-month, .hero-stat, .formula, .worked, .aha, .connect');
+  els.forEach(el => el.classList.add('fade-up'));
+
+  const revealVisible = () => {
+    const vh = window.innerHeight;
+    els.forEach(el => {
+      if (el.classList.contains('in')) return;
+      const r = el.getBoundingClientRect();
+      if (r.top < vh + 100) el.classList.add('in');
+    });
+  };
+
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+    });
+  }, { threshold: 0, rootMargin: '0px 0px -10% 0px' });
+  els.forEach(el => io.observe(el));
+
+  [0,50,200,600].forEach(t => setTimeout(revealVisible, t));
+
+  document.addEventListener('click', (ev) => {
+    const a = ev.target.closest('a[href^="#"]');
+    if (!a) return;
+    const id = a.getAttribute('href').slice(1);
+    if (!id) return;
+    const target = document.getElementById(id);
+    if (!target) return;
+    target.classList.add('in');
+    target.querySelectorAll('.fade-up').forEach(el => el.classList.add('in'));
+    setTimeout(revealVisible, 700);
+  });
+
+  if (location.hash) {
+    const t = document.getElementById(location.hash.slice(1));
+    if (t) {
+      t.classList.add('in');
+      t.querySelectorAll('.fade-up').forEach(el => el.classList.add('in'));
+    }
+  }
+
+  let raf;
+  const onScroll = () => { cancelAnimationFrame(raf); raf = requestAnimationFrame(revealVisible); };
+  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', onScroll);
+})();
+</script>
+
+</body>
+</html>
