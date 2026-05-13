@@ -1,6 +1,6 @@
 # Machine Learning Mastery — A Master Curriculum
 
-The third landing page — a complete, ground-up ML curriculum in plain English. Built so a software engineer with zero ML background can learn from the Perceptron (1958) to today's Agentic AI (2026+) — with every concept explained intuition-first, math-second, and connected back to modern LLMs.
+A complete, ground-up ML curriculum in plain English. Built so a software engineer with zero ML background can learn from the Perceptron (1958) to today's Agentic AI (2026+) — with every concept explained intuition-first, math-second, and connected back to modern LLMs.
 
 **Distinct from the other two pages:**
 - **Architecture Handbook** — warm editorial cream paper for *enterprise architects*.
@@ -36,8 +36,6 @@ python3 -m http.server 8000
 ```
 
 ## Deploy to Vercel — separate project
-
-This is a **third, separate** Vercel project. Same deploy flow as the others:
 
 1. Create a new GitHub repo (e.g. `ml-mastery-tejeswar`):
    ```bash
